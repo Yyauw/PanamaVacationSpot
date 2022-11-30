@@ -1,0 +1,19 @@
+{
+  "name": "pvs_develop",
+  "version": "1.0.0",
+  "description": "PanamaVacationSpot is a proyect that help tourist and locals to find place to go on vacation, you can share your favorites spot in panama so everyone can enjoy the trip of their lives!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Yyauw/PanamaVacationSpot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Yyauw/PanamaVacationSpot/issues"
+  },
+  "homepage": "https://github.com/Yyauw/PanamaVacationSpot#readme"
+}
