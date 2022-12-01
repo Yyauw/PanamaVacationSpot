@@ -13,6 +13,8 @@ mongoose
     console.log(err);
   });
 
+app.use(express.urlencoded({exteded:true}))
+
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
@@ -23,6 +25,16 @@ app.get("/", async (req, res) => {
 app.get("/spots", async (req, res) => {
   const spots = await Spot.find({});
   res.render("./spots/index", {spots});
+});
+
+app.post("/spots", async (req, res) => {
+  const spot = new Spot(req.body.spot);
+  await spot.save();
+  res.redirect("/spots")
+});
+
+app.get("/spots/new", (req, res) => {
+  res.render("./spots/new");
 });
 
 app.get("/spots/:id", async (req, res) => {
