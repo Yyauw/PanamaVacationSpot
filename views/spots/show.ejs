@@ -10,5 +10,8 @@
     <h1><%= spot.title %> </h1>
     <h2><%= spot.location %> </h2>
     <Span><a href="/spots">All Spots</a> <a href="/spots/<%= spot._id %>/edit ">Edit</a></Span>
+    <form action="/spots/<%= spot._id %>?_method=DELETE" method="POST">
+        <button>Delete spot</button>
+    </form>
 </body>
 </html>
