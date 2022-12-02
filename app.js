@@ -4,6 +4,7 @@ const path = require("path");
 const mongoose = require("mongoose");
 const Spot = require("./models/spot");
 const methodOverride = require("method-override");
+const ejsMate = require("ejs-mate");
 
 mongoose
   .connect("mongodb://localhost:27017/PanamaVacationSpot")
@@ -14,8 +15,10 @@ mongoose
     console.log(err);
   });
 
-app.use(express.urlencoded({exteded:true}))
-app.use(methodOverride('_method'))
+app.engine("ejs", ejsMate);
+
+app.use(express.urlencoded({ exteded: true }));
+app.use(methodOverride("_method"));
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -26,15 +29,14 @@ app.get("/", async (req, res) => {
 
 app.get("/spots", async (req, res) => {
   const spots = await Spot.find({});
-  res.render("./spots/index", {spots});
+  res.render("./spots/index", { spots });
 });
 
 app.post("/spots", async (req, res) => {
   const spot = new Spot(req.body.spot);
   await spot.save();
-  res.redirect("/spots")
+  res.redirect("/spots");
 });
-
 
 app.get("/spots/new", (req, res) => {
   res.render("./spots/new");
@@ -42,22 +44,22 @@ app.get("/spots/new", (req, res) => {
 
 app.get("/spots/:id", async (req, res) => {
   const spot = await Spot.findById(req.params.id);
-  res.render("./spots/show", {spot});
+  res.render("./spots/show", { spot });
 });
 
 app.put("/spots/:id", async (req, res) => {
-  await Spot.findByIdAndUpdate(req.params.id, req.body.spot)
-  res.redirect(`/spots/${req.params.id}`)
+  await Spot.findByIdAndUpdate(req.params.id, req.body.spot);
+  res.redirect(`/spots/${req.params.id}`);
 });
 
 app.delete("/spots/:id", async (req, res) => {
-  await Spot.findByIdAndDelete(req.params.id)
-  res.redirect("/spots")
+  await Spot.findByIdAndDelete(req.params.id);
+  res.redirect("/spots");
 });
 
 app.get("/spots/:id/edit", async (req, res) => {
   const spot = await Spot.findById(req.params.id);
-  res.render("./spots/edit", {spot});
+  res.render("./spots/edit", { spot });
 });
 
 app.listen("3000", () => {
