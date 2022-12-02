@@ -1,7 +1,25 @@
 <% layout('layouts/boilerplate') %> 
-    <h1><%= spot.title %> </h1>
-    <h2><%= spot.location %> </h2>
-    <Span><a href="/spots">All Spots</a> <a href="/spots/<%= spot._id %>/edit ">Edit</a></Span>
-    <form action="/spots/<%= spot._id %>?_method=DELETE" method="POST">
-        <button>Delete spot</button>
-    </form>
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card mb-3">
+            <img src="<%= spot.image %>" class="card-img-top" >
+            <div class="card-body">
+              <h5 class="card-title"><%= spot.title %></h5>
+              <p class="card-text"><%= spot.description %></p>
+            </div>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item text-muted"><%= spot.location %></li>
+              <li class="list-group-item">$<%= spot.price%> per entry</li>
+            </ul>
+            <div class="card-body">
+                <a href="/spots/<%= spot._id %>/edit " class="btn btn-primary">Edit</a>
+                <form action="/spots/<%= spot._id %>?_method=DELETE" method="POST" class="d-inline">
+                    <button class="btn btn-danger">Delete spot</button>
+                </form>
+            </div>
+            <div class="card-footer text-muted">
+                2 days ago
+              </div>
+          </div>
+    </div>
+</div>

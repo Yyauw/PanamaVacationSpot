@@ -17,9 +17,13 @@ async function createSpot() {
   for (let x = 0; x < 50; x++) {
     const random100 = Math.floor(Math.random() * 563);
     const randomplaces = Math.floor(Math.random() * places.length);
+    const priceGenerator = Math.floor(10 +Math.random() * 50);
     const spot = new Spot({
       location: `${cities[random100].city}, ${cities[random100].admin_name}`,
       title: `${cities[random100].city} ${places[randomplaces]}`,
+      image:'https://source.unsplash.com/collection/11649432/1600x900',
+      price:priceGenerator,
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit quas doloremque saepe, ullam, itaque, necessitatibus explicabo modi ratione inventore qui ducimus sapiente minima iste odit commodi! Magnam quasi inventore ratione'
     });
     await spot.save();
   }
