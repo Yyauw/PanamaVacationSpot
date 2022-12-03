@@ -2,29 +2,44 @@
     <div class="row">
         <h1 class="text-center">Edit Spot</h1>
         <div class="col-6 offset-3">
-            <form action="/spots/<%= spot._id%>?_method=PUT" method="POST">
+            <form action="/spots/<%= spot._id%>?_method=PUT" method="POST" novalidate class="needs-validation">
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
-                    <input type="text" name="spot[title]" id="title" class="form-control" value="<%= spot.title%>">
+                    <input type="text" name="spot[title]" id="title" class="form-control" value="<%= spot.title%>" required>
+                    <div class="invalid-feedback">
+                        This field is required!
+                      </div>
                 </div>
                 <div class="mb-3">
                     <label for="location" class="form-label">Location</label>
-                    <input type="text" name="spot[location]" id="location" class="form-control" value="<%= spot.location%>">
+                    <input type="text" name="spot[location]" id="location" class="form-control" value="<%= spot.location%>" required>
+                    <div class="invalid-feedback">
+                        This field is required!
+                      </div>
                 </div>
                 <div class="mb-3">
                     <label for="image" class="form-label">Image url</label>
-                    <input type="text" name="spot[image]" id="image" class="form-control" value="<%= spot.image%>">
+                    <input type="text" name="spot[image]" id="image" class="form-control" value="<%= spot.image%>" required>
+                    <div class="invalid-feedback">
+                        This field is required!
+                      </div>
                 </div>
                 <div class="mb-3">
                     <label for="price" class="form-label">Price</label>
                     <div class="input-group mb-3">
                         <span class="input-group-text">$</span>
-                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="spot[price]" id="price" placeholder="0.00" value="<%= spot.price%>">
+                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="spot[price]" id="price" placeholder="0.00" value="<%= spot.price%>" required>
+                        <div class="invalid-feedback">
+                            This field is required! (use 0 if the entry is free)
+                          </div>
                       </div>
                 </div>
                 <div class="mb-3">
                     <label for="description" class="form-label">Description</label>
-                    <textarea name="spot[description]" id="description" class="form-control"><%= spot.description%></textarea>
+                    <textarea name="spot[description]" id="description" class="form-control" required><%= spot.description%></textarea>
+                    <div class="invalid-feedback">
+                        Please provide a valid description!
+                      </div>
                 </div>
                 <button class="btn btn-success">Update spot</button> <a href="/spots/<%= spot._id%>" class="btn btn-danger">Cancel</a>
             </form>
