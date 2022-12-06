@@ -37,6 +37,7 @@ app.get("/spots", async (req, res) => {
 app.post(
   "/spots",
   catchAsync(async (req, res, next) => {
+    if(!req.body.spot) throw new ExpressError('Invalid Spot Data!',400)
     const spot = new Spot(req.body.spot);
     await spot.save();
     res.redirect("/spots");
@@ -84,8 +85,9 @@ app.all("*", (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  const { message = "Something went wrong", statusCode = 500 } = err;
-  res.status(statusCode).send(message);
+  const {statusCode = 500}=err
+  if(!err.message) err.message = 'Somenthing Went Wrong'
+  res.status(statusCode).render('./partials/error',{err});
 });
 
 app.listen("3000", () => {
