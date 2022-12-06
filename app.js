@@ -7,7 +7,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
-const Joi = require("joi");
+const {spotSchema} = require("./validationSchemas")
 
 mongoose
   .connect("mongodb://localhost:27017/PanamaVacationSpot")
@@ -26,6 +26,17 @@ app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+function validateSpot(req, res, next) {
+  const result = spotSchema.validate(req.body);
+  const { error } = result;
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(", ");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+}
+
 app.get("/", async (req, res) => {
   res.render("home");
 });
@@ -37,22 +48,8 @@ app.get("/spots", async (req, res) => {
 
 app.post(
   "/spots",
+  validateSpot,
   catchAsync(async (req, res, next) => {
-    const spotSchema = Joi.object({
-      spot: Joi.object({
-        title: Joi.string().required(),
-        location: Joi.string().required(),
-        image: Joi.string().required(),
-        price: Joi.number().required().min(0),
-        description: Joi.string().required(),
-      }).required(),
-    });
-    const result = spotSchema.validate(req.body);
-    const { error } = result;
-    if (error) {
-      const msg = error.details.map((el) => el.message).join(", ");
-      throw new ExpressError(msg, 400);
-    }
     const spot = new Spot(req.body.spot);
     await spot.save();
     res.redirect("/spots");
@@ -73,6 +70,7 @@ app.get(
 
 app.put(
   "/spots/:id",
+  validateSpot,
   catchAsync(async (req, res) => {
     await Spot.findByIdAndUpdate(req.params.id, req.body.spot);
     res.redirect(`/spots/${req.params.id}`);
