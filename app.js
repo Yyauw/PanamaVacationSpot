@@ -3,12 +3,12 @@ app = express();
 const path = require("path");
 const mongoose = require("mongoose");
 const Spot = require("./models/spot");
-const Review = require('./models/review')
+const Review = require("./models/review");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
-const {spotSchema} = require("./validationSchemas")
+const { spotSchema, reviewSchema } = require("./validationSchemas");
 
 mongoose
   .connect("mongodb://localhost:27017/PanamaVacationSpot")
@@ -29,6 +29,17 @@ app.set("views", path.join(__dirname, "views"));
 
 function validateSpot(req, res, next) {
   const result = spotSchema.validate(req.body);
+  const { error } = result;
+  if (error) {
+    const msg = error.details.map((el) => el.message).join(", ");
+    throw new ExpressError(msg, 400);
+  } else {
+    next();
+  }
+}
+
+function validateReview(req, res, next) {
+  const result = reviewSchema.validate(req.body);
   const { error } = result;
   if (error) {
     const msg = error.details.map((el) => el.message).join(", ");
@@ -96,13 +107,14 @@ app.get(
 
 app.post(
   "/spots/:id/review",
+  validateReview,
   catchAsync(async (req, res) => {
     const spot = await Spot.findById(req.params.id);
     const rev = await new Review(req.body.review);
     spot.reviews.push(rev);
     await spot.save();
     await rev.save();
-    res.redirect(`/spots/${req.params.id}`)
+    res.redirect(`/spots/${req.params.id}`);
   })
 );
 
