@@ -1,25 +1,52 @@
-<% layout('layouts/boilerplate') %> 
+<% layout('layouts/boilerplate') %>
 <div class="row">
-    <div class="col-6 offset-3">
-        <div class="card mb-3">
-            <img src="<%= spot.image %>" class="card-img-top" >
-            <div class="card-body">
-              <h5 class="card-title"><%= spot.title %></h5>
-              <p class="card-text"><%= spot.description %></p>
-            </div>
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item text-muted"><%= spot.location %></li>
-              <li class="list-group-item">$<%= spot.price%> per entry</li>
-            </ul>
-            <div class="card-body">
-                <a href="/spots/<%= spot._id %>/edit " class="btn btn-primary">Edit</a>
-                <form action="/spots/<%= spot._id %>?_method=DELETE" method="POST" class="d-inline">
-                    <button class="btn btn-danger">Delete spot</button>
-                </form>
-            </div>
-            <div class="card-footer text-muted">
-                2 days ago
-              </div>
-          </div>
+  <div class="col-6 offset-3">
+    <div class="card mb-3">
+      <img src="<%= spot.image %>" class="card-img-top" />
+      <div class="card-body">
+        <h5 class="card-title"><%= spot.title %></h5>
+        <p class="card-text"><%= spot.description %></p>
+      </div>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item text-muted"><%= spot.location %></li>
+        <li class="list-group-item">$<%= spot.price%> per entry</li>
+      </ul>
+      <div class="card-body">
+        <a href="/spots/<%= spot._id %>/edit " class="btn btn-primary">Edit</a>
+        <form
+          action="/spots/<%= spot._id %>?_method=DELETE"
+          method="POST"
+          class="d-inline"
+        >
+          <button class="btn btn-danger">Delete spot</button>
+        </form>
+      </div>
+      <div class="card-footer text-muted">2 days ago</div>
     </div>
+    <form action="/spots/<%= spot._id %>/review" method="POST">
+      <div class="mb-3">
+        <label for="rating" class="form-label">Rating</label>
+        <input
+          type="range"
+          name=""
+          id=""
+          class="form-range"
+          min="1"
+          max="5"
+          value="1"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="body" class="form-label">Review</label>
+        <textarea
+          name="review[body]"
+          id="body"
+          cols="30"
+          rows="3"
+          class="form-control"
+        ></textarea>
+      </div>
+      <button class="btn btn-success">Submit</button>
+    </form>
+  </div>
 </div>

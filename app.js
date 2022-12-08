@@ -3,6 +3,7 @@ app = express();
 const path = require("path");
 const mongoose = require("mongoose");
 const Spot = require("./models/spot");
+const Review = require('./models/review')
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const catchAsync = require("./utils/catchAsync");
@@ -90,6 +91,18 @@ app.get(
   catchAsync(async (req, res) => {
     const spot = await Spot.findById(req.params.id);
     res.render("./spots/edit", { spot });
+  })
+);
+
+app.post(
+  "/spots/:id/review",
+  catchAsync(async (req, res) => {
+    const spot = await Spot.findById(req.params.id);
+    const rev = await new Review(req.body.review);
+    spot.reviews.push(rev);
+    await spot.save();
+    await rev.save();
+    res.redirect(`/spots/${req.params.id}`)
   })
 );
 
