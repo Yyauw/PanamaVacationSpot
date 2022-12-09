@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
+const Review = require("./review");
 
 const SpotSchema = new Schema({
   title: String,
@@ -7,12 +8,18 @@ const SpotSchema = new Schema({
   price: Number,
   description: String,
   location: String,
-  reviews:[
+  reviews: [
     {
-      type:Schema.Types.ObjectId,
-      ref:'Review'
-    }
-  ]
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
+});
+
+SpotSchema.post("findOneAndDelete", async function (doc) {
+  if (doc) {
+    await Review.deleteMany({ _id: { $in: doc.reviews } });
+  }
 });
 
 module.exports = mongoose.model("Spot", SpotSchema);
