@@ -1,6 +1,6 @@
 <% layout('layouts/boilerplate') %>
 <div class="row">
-  <div class="col-6 offset-3">
+  <div class="col-6">
     <div class="card mb-3">
       <img src="<%= spot.image %>" class="card-img-top" />
       <div class="card-body">
@@ -23,7 +23,9 @@
       </div>
       <div class="card-footer text-muted">2 days ago</div>
     </div>
-    <form action="/spots/<%= spot._id %>/review" method="POST">
+  </div>
+  <div class="col-6">
+    <form action="/spots/<%= spot._id %>/review" method="POST" class="mb-3">
       <div class="mb-3">
         <label for="rating" class="form-label">Rating</label>
         <input
@@ -48,5 +50,13 @@
       </div>
       <button class="btn btn-success">Submit</button>
     </form>
+    <% for(let review of  spot.reviews){ %>
+      <div class="card mb-3">
+        <div class="card-body">
+        <h5 class="card-title">Rating: <%= review.rating %> </h5>
+        <p class="card-text"><%= review.body %> </p>
+      </div>
+      </div>
+      <% } %>  
   </div>
 </div>
