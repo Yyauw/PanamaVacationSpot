@@ -2,14 +2,11 @@ const express = require("express");
 app = express();
 const path = require("path");
 const mongoose = require("mongoose");
-const Spot = require("./models/spot");
-const Review = require("./models/review");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
-const catchAsync = require("./utils/catchAsync");
 const ExpressError = require("./utils/ExpressError");
-const { spotSchema, reviewSchema } = require("./validationSchemas");
 const Spots = require('./routes/spots')
+const Reviews = require('./routes/reviews')
 
 mongoose
   .connect("mongodb://localhost:27017/PanamaVacationSpot")
@@ -28,42 +25,12 @@ app.use(methodOverride("_method"));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-function validateReview(req, res, next) {
-  const result = reviewSchema.validate(req.body);
-  const { error } = result;
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(", ");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-}
-
 app.use('/spots', Spots);
+app.use('/spots/:id/review', Reviews)
 
 app.get("/", async (req, res) => {
   res.render("home");
 });
-
-app.post(
-  "/spots/:id/review",
-  validateReview,
-  catchAsync(async (req, res) => {
-    const spot = await Spot.findById(req.params.id);
-    const rev = await new Review(req.body.review);
-    spot.reviews.push(rev);
-    await spot.save();
-    await rev.save();
-    res.redirect(`/spots/${req.params.id}`);
-  })
-);
-
-app.delete("/spots/:id/review/:reviewId", async(req,res)=>{
-  const {id, reviewId} = req.params
-  await Spot.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
-  await Review.findByIdAndDelete(reviewId)
-  res.redirect(`/spots/${id}`)
-})
 
 app.all("*", (req, res, next) => {
   next(new ExpressError("Page Not Found", 404));

@@ -16,7 +16,6 @@ function validateSpot(req, res, next) {
     }
   }
   
-
 router.get("/", async (req, res) => {
     const spots = await Spot.find({});
     res.render("./spots/index", { spots });
