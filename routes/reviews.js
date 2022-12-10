@@ -25,6 +25,7 @@ router.post(
       spot.reviews.push(rev);
       await spot.save();
       await rev.save();
+      req.flash('success', 'Successfully made review!')
       res.redirect(`/spots/${req.params.id}`);
     })
   );
@@ -33,6 +34,7 @@ router.post(
     const {id, reviewId} = req.params
     await Spot.findByIdAndUpdate(id, {$pull: {reviews: reviewId}});
     await Review.findByIdAndDelete(reviewId)
+    req.flash('success', 'Successfully deleted review!')
     res.redirect(`/spots/${id}`)
   })
 

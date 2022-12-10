@@ -27,7 +27,8 @@ router.get("/", async (req, res) => {
     catchAsync(async (req, res, next) => {
       const spot = new Spot(req.body.spot);
       await spot.save();
-      res.redirect("/spots");
+      req.flash('success', 'Successfully made spot!')
+      res.redirect(`/spots/${spot._id}`);
     })
   );
   
@@ -48,6 +49,7 @@ router.get("/", async (req, res) => {
     validateSpot,
     catchAsync(async (req, res) => {
       await Spot.findByIdAndUpdate(req.params.id, req.body.spot);
+      req.flash('success', 'Successfully updated spot!')
       res.redirect(`/spots/${req.params.id}`);
     })
   );
@@ -56,6 +58,7 @@ router.get("/", async (req, res) => {
     "/:id",
     catchAsync(async (req, res) => {
       await Spot.findByIdAndDelete(req.params.id);
+      req.flash('success', 'Successfully deleted spot!')
       res.redirect("/spots");
     })
   );
