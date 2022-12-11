@@ -5,13 +5,14 @@ const mongoose = require("mongoose");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressError");
-const Spots = require("./routes/spots");
-const Reviews = require("./routes/reviews");
+const spotsRoutes = require("./routes/spots");
+const reviewsRoutes = require("./routes/reviews");
 const session = require("express-session");
 const flash = require("connect-flash");
-const passport = require('passport')
-const localStrategy = require('passport-local');
-const User = require('./models/user')
+const passport = require("passport");
+const localStrategy = require("passport-local");
+const User = require("./models/user");
+const usersRoutes = require("./routes/users");
 
 mongoose
   .connect("mongodb://localhost:27017/PanamaVacationSpot")
@@ -44,23 +45,22 @@ const sessionConfig = {
 app.use(session(sessionConfig));
 app.use(flash());
 
-app.use(passport.initialize())
-app.use(passport.session())
-passport.use(new localStrategy(User.authenticate()))
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new localStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use((req,res,next)=>{
-  res.locals.success = req.flash('success');
-  res.locals.error = req.flash('error');
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
   next();
-})
+});
 
-
-
-app.use("/spots", Spots);
-app.use("/spots/:id/review", Reviews);
+app.use("/spots", spotsRoutes);
+app.use("/spots/:id/review", reviewsRoutes);
+app.use("/", usersRoutes);
 
 app.get("/", async (req, res) => {
   res.render("home");
