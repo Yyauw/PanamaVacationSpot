@@ -15,7 +15,18 @@
           <li class="nav-item">
             <a class="nav-link" href="/spots/new">New Spots</a>
           </li>
+     
         </ul>
       </div>
+      <div class="collapse navbar-collapse flex-row-reverse" id="navbarNav" >
+        <div class="navbar-nav ms-start">
+          <% if(!userSession) {%> 
+          <a class="nav-link" href="/login">Login</a>
+          <a class="nav-link" href="/register">Singup</a>
+          <% }else{ %> 
+          <a class="nav-link" href="/logout">Logout</a>
+          <% } %> 
+      </div>
+  </div>
     </div>
   </nav>
