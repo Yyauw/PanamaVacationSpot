@@ -15,11 +15,11 @@ router.post(
       const { email, username, password } = req.body;
       const user = new User({ email, username });
       const registeredUser = await User.register(user, password);
-      req.login(registeredUser, err =>{
-        if(err) return next(err);
+      req.login(registeredUser, (err) => {
+        if (err) return next(err);
         req.flash("success", "Welcome to PanamaVacationSpot!");
         res.redirect("/spots");
-      })
+      });
     } catch (e) {
       req.flash("error", e.message);
       res.redirect("/register");
@@ -36,10 +36,13 @@ router.post(
   passport.authenticate("local", {
     failureFlash: true,
     failureRedirect: "/login",
+    keepSessionInfo:true
   }),
   (req, res) => {
+    const backUrl = req.session.backTo || "/spots";
+    delete req.session.backTo;
     req.flash("success", "Welcome back!");
-    res.redirect("/spots");
+    res.redirect(backUrl);
   }
 );
 
@@ -49,7 +52,6 @@ router.get("/logout", (req, res, next) => {
     req.flash("success", "Goodbye!");
     res.redirect("/spots");
   });
-
 });
 
 module.exports = router;
