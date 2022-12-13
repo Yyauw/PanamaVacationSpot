@@ -12,6 +12,7 @@
         <li class="list-group-item ">Submited by <%= spot.author.username %></li>
         <li class="list-group-item">$<%= spot.price%> per entry</li>
       </ul>
+      <% if(userSession && spot.author.equals(userSession._id)){ %> 
       <div class="card-body">
         <a href="/spots/<%= spot._id %>/edit " class="btn btn-primary">Edit</a>
         <form
@@ -22,6 +23,7 @@
           <button class="btn btn-danger">Delete spot</button>
         </form>
       </div>
+      <% } %> 
       <div class="card-footer text-muted">2 days ago</div>
     </div>
   </div>

@@ -2,20 +2,7 @@ const express = require("express");
 const Spot = require("../models/spot");
 const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
-const ExpressError = require("../utils/ExpressError");
-const { spotSchema } = require("../validationSchemas");
-const isLoggedIn = require("../middleware");
-
-function validateSpot(req, res, next) {
-  const result = spotSchema.validate(req.body);
-  const { error } = result;
-  if (error) {
-    const msg = error.details.map((el) => el.message).join(", ");
-    throw new ExpressError(msg, 400);
-  } else {
-    next();
-  }
-}
+const {isLoggedIn, isAuthor, validateSpot} = require("../middleware");
 
 router.get("/", async (req, res) => {
   const spots = await Spot.find({});
@@ -42,7 +29,9 @@ router.get("/new", isLoggedIn, (req, res) => {
 router.get(
   "/:id",
   catchAsync(async (req, res) => {
-    const spot = await Spot.findById(req.params.id).populate("reviews").populate('author');
+    const spot = await Spot.findById(req.params.id)
+      .populate("reviews")
+      .populate("author");
     if (!spot) {
       req.flash("error", "Spot not found!");
       return res.redirect("/spots");
@@ -54,6 +43,7 @@ router.get(
 router.put(
   "/:id",
   isLoggedIn,
+  isAuthor,
   validateSpot,
   catchAsync(async (req, res) => {
     await Spot.findByIdAndUpdate(req.params.id, req.body.spot);
@@ -65,6 +55,7 @@ router.put(
 router.delete(
   "/:id",
   isLoggedIn,
+  isAuthor,
   catchAsync(async (req, res) => {
     await Spot.findByIdAndDelete(req.params.id);
     req.flash("success", "Successfully deleted spot!");
@@ -75,6 +66,7 @@ router.delete(
 router.get(
   "/:id/edit",
   isLoggedIn,
+  isAuthor,
   catchAsync(async (req, res) => {
     const spot = await Spot.findById(req.params.id);
     if (!spot) {
