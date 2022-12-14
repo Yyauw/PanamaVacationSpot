@@ -5,7 +5,7 @@ const catchAsync = require("../utils/catchAsync");
 const { isLoggedIn, isAuthor, validateSpot } = require("../middleware");
 const spotController = require("../controller/spotsController");
 
-router.get("/", spotController.index);
+router.route("/").get(spotController.index);
 
 router.post(
   "/",
