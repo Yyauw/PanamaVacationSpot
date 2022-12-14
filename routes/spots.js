@@ -2,7 +2,7 @@ const express = require("express");
 const Spot = require("../models/spot");
 const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
-const {isLoggedIn, isAuthor, validateSpot} = require("../middleware");
+const { isLoggedIn, isAuthor, validateSpot } = require("../middleware");
 
 router.get("/", async (req, res) => {
   const spots = await Spot.find({});
@@ -30,7 +30,7 @@ router.get(
   "/:id",
   catchAsync(async (req, res) => {
     const spot = await Spot.findById(req.params.id)
-      .populate("reviews")
+      .populate({ path: "reviews", populate: { path: "author" } })
       .populate("author");
     if (!spot) {
       req.flash("error", "Spot not found!");

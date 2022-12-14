@@ -1,6 +1,7 @@
 const ExpressError = require("./utils/ExpressError");
 const { spotSchema, reviewSchema } = require("./validationSchemas");
 const Spot = require("./models/spot");
+const Review = require('./models/review')
 
 module.exports.isLoggedIn=(req,res,next) =>{
     if(!req.isAuthenticated()){
@@ -25,9 +26,18 @@ module.exports.validateSpot = (req, res, next) =>{
  module.exports.isAuthor = async (req, res, next) => {
     const { id } = req.params;
     const spot = await Spot.findById(id);
-    console.log(spot);
     if (!spot.author.equals(req.user._id)) {
-      req.flash("error", "You not allowed to do that!");
+      req.flash("error", "You do not have permission to do that!");
+      return res.redirect(`/spots/${id}`);
+    }
+    next();
+  };
+
+ module.exports.isReviewAuthor = async (req, res, next) => {
+    const { id, reviewId } = req.params;
+    const review = await Review.findById(id);
+    if (!review.author.equals(req.user._id)) {
+      req.flash("error", "You do not have permission to do that!");
       return res.redirect(`/spots/${id}`);
     }
     next();
