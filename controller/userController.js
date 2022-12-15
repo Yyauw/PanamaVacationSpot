@@ -20,6 +20,10 @@ module.exports.registerForm = (req, res) => {
   res.render("./user/register");
 };
 
+module.exports.loginForm = (req, res) => {
+  res.render("./user/login");
+}
+
 module.exports.login = (req, res) => {
   const backUrl = req.session.backTo || "/spots";
   delete req.session.backTo;
