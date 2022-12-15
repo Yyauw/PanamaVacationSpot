@@ -4,11 +4,17 @@ const router = express.Router();
 const catchAsync = require("../utils/catchAsync");
 const { isLoggedIn, isAuthor, validateSpot } = require("../middleware");
 const spotController = require("../controller/spotsController");
+const multer  = require('multer')
+const upload = multer({ dest: 'uploads/' })
 
 router
   .route("/")
   .get(spotController.index)
-  .post(isLoggedIn, validateSpot, catchAsync(spotController.createSpot));
+  // .post(isLoggedIn, validateSpot, catchAsync(spotController.createSpot));
+  .post(upload.single('image'),(req,res) =>{
+    console.log(req.file, req.body)
+    res.send(req.body)
+  })
 
 router.get("/new", isLoggedIn, spotController.newSpot);
 
