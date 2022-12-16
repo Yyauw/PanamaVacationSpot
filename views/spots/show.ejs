@@ -3,7 +3,9 @@
 <div class="row">
   <div class="col-6">
     <div class="card mb-3">
-      <img src="<%= spot.image %>" class="card-img-top" />
+      <% for(let img of spot.images){ %> 
+      <img src="<%= img.url %>" class="card-img-top" />
+      <% } %> 
       <div class="card-body">
         <h5 class="card-title"><%= spot.title %></h5>
         <p class="card-text"><%= spot.description %></p>

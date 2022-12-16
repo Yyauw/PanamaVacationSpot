@@ -12,11 +12,7 @@ const upload = multer({ storage})
 router
   .route("/")
   .get(spotController.index)
-  // .post(isLoggedIn, validateSpot, catchAsync(spotController.createSpot));
-  .post(upload.array('image'),(req,res) =>{
-    console.log(req.files, req.body)
-    res.send(req.body)
-  })
+  .post(isLoggedIn, upload.array('image'),validateSpot, catchAsync(spotController.createSpot));
 
 router.get("/new", isLoggedIn, spotController.newSpot);
 

@@ -11,6 +11,10 @@ module.exports.newSpot = (req, res) => {
 
 module.exports.createSpot = async (req, res, next) => {
   const spot = new Spot(req.body.spot);
+  spot.images = req.files.map((el) => ({
+    url: el.path,
+    filename: el.filename,
+  }));
   spot.author = req.user._id;
   await spot.save();
   req.flash("success", "Successfully made spot!");
