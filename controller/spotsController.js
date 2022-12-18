@@ -1,4 +1,5 @@
 const Spot = require("../models/spot");
+const {cloudinary}= require('../cloudinary')
 
 module.exports.index = async (req, res) => {
   const spots = await Spot.find({});
@@ -33,7 +34,19 @@ module.exports.showSpot = async (req, res) => {
 };
 
 module.exports.editSpot = async (req, res) => {
-  await Spot.findByIdAndUpdate(req.params.id, req.body.spot);
+  const spot = await Spot.findByIdAndUpdate(req.params.id, req.body.spot);
+  const img = req.files.map((el) => ({
+    url: el.path,
+    filename: el.filename,
+  }));
+  spot.images.push(...img);
+  if (req.body.deleteImages) {
+    for(let filename of req.body.deleteImages ){
+      await cloudinary.uploader.destroy(filename)
+    }
+    await spot.updateOne({$pull: { images: { filename: { $in: req.body.deleteImages } } }});
+  }
+  await spot.save();
   req.flash("success", "Successfully updated spot!");
   res.redirect(`/spots/${req.params.id}`);
 };

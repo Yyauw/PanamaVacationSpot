@@ -22,7 +22,16 @@ async function createSpot() {
       author:'639625e34ebc12897aad1daf',
       location: `${cities[random100].city}, ${cities[random100].admin_name}`,
       title: `${cities[random100].city} ${places[randomplaces]}`,
-      image:'https://source.unsplash.com/collection/11649432/1600x900',
+      images:[
+        {
+          url:'https://source.unsplash.com/collection/11649432/1600x900',
+          filename:'jijija'
+        },
+        {
+          url:'https://source.unsplash.com/collection/11649432/1600x900',
+          filename:'jijija2'
+        }
+      ],
       price:priceGenerator,
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit quas doloremque saepe, ullam, itaque, necessitatibus explicabo modi ratione inventore qui ducimus sapiente minima iste odit commodi! Magnam quasi inventore ratione'
     });

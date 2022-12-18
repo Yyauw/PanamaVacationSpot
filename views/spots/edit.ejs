@@ -2,7 +2,7 @@
     <div class="row">
         <h1 class="text-center">Edit Spot</h1>
         <div class="col-6 offset-3">
-            <form action="/spots/<%= spot._id%>?_method=PUT" method="POST" novalidate class="needs-validation">
+            <form action="/spots/<%= spot._id%>?_method=PUT" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="title" class="form-label">Title</label>
                     <input type="text" name="spot[title]" id="title" class="form-control" value="<%= spot.title%>" required>
@@ -17,13 +17,7 @@
                         This field is required!
                       </div>
                 </div>
-                <div class="mb-3">
-                    <label for="image" class="form-label">Image url</label>
-                    <input type="text" name="spot[image]" id="image" class="form-control" value="<%= spot.image%>" required>
-                    <div class="invalid-feedback">
-                        This field is required!
-                      </div>
-                </div>
+     
                 <div class="mb-3">
                     <label for="price" class="form-label">Price</label>
                     <div class="input-group mb-3">
@@ -41,6 +35,19 @@
                         Please provide a valid description!
                       </div>
                 </div>
+                <div class="mb-3">
+                    <label for="image" class="form-label">Images</label>
+                    <input class="form-control" type="file" id="image" multiple name="image">
+                  </div>
+                  <div>
+                    <% spot.images.forEach( (el,i) => {%>
+                        <div>
+                            <img src="<%= el.url%> " alt="" class="img-thumbnail">
+                            <input type="checkbox" name="deleteImages[]" id="image-<%= i %>" value="<%= el.filename%>">
+                            <label for="image-<%= i %>">Delete?</label>
+                        </div>
+                        <% } )%> 
+                  </div>
                 <button class="btn btn-success">Update spot</button> <a href="/spots/<%= spot._id%>" class="btn btn-danger">Cancel</a>
             </form>
             

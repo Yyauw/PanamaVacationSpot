@@ -1,51 +1,76 @@
-<% layout('layouts/boilerplate') %> 
+<% layout('layouts/boilerplate') %>
 <div class="row">
-    <h1 class="text-center">New Spot</h1>
-    <div class="col-6 offset-3">
-        <form action="/spots" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" name="spot[title]" id="title" class="form-control" required>
-                <div class="invalid-feedback">
-                    This field is required!
-                  </div>
-            </div>
-            <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
-                <input type="text" name="spot[location]" id="location" class="form-control" required>
-                <div class="invalid-feedback">
-                    This field is required!
-                  </div>
-            </div>
-            <!-- <div class="mb-3">
-                <label for="image" class="form-label">Image url</label>
-                <input type="text" name="spot[image]" id="image" class="form-control" required>
-                <div class="invalid-feedback">
-                    This field is required!
-                  </div>
-            </div> -->
-            <input type="file" name="image" id="" multiple>
-            <div class="mb-3">
-                <label for="price" class="form-label">Price</label>
-                <div class="input-group mb-3">
-                    <span class="input-group-text">$</span>
-                    <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="spot[price]" id="price" placeholder="0.00" required>
-                    <div class="invalid-feedback">
-                        This field is required! (use 0 if the entry is free)
-                      </div>
-                  </div>
-                
-            </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="spot[description]" id="description" class="form-control" required></textarea>
-                <div class="invalid-feedback">
-                    Please provide a valid description!
-                  </div>
-            </div>
-            <button class="btn btn-success">Submit spot</button> <a href="/spots" class="btn btn-danger">Cancel</a>
-        </form>
-    
-    </div>
+  <h1 class="text-center">New Spot</h1>
+  <div class="col-6 offset-3">
+    <form
+      action="/spots"
+      method="POST"
+      novalidate
+      class="needs-validation"
+      enctype="multipart/form-data"
+    >
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          type="text"
+          name="spot[title]"
+          id="title"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">This field is required!</div>
+      </div>
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input
+          type="text"
+          name="spot[location]"
+          id="location"
+          class="form-control"
+          required
+        />
+        <div class="invalid-feedback">This field is required!</div>
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Images</label>
+        <input
+          class="form-control"
+          type="file"
+          id="image"
+          multiple
+          name="image"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text">$</span>
+          <input
+            type="text"
+            class="form-control"
+            aria-label="Amount (to the nearest dollar)"
+            name="spot[price]"
+            id="price"
+            placeholder="0.00"
+            required
+          />
+          <div class="invalid-feedback">
+            This field is required! (use 0 if the entry is free)
+          </div>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          name="spot[description]"
+          id="description"
+          class="form-control"
+          required
+        ></textarea>
+        <div class="invalid-feedback">Please provide a valid description!</div>
+      </div>
+      <button class="btn btn-success">Submit spot</button>
+      <a href="/spots" class="btn btn-danger">Cancel</a>
+    </form>
+  </div>
 </div>
-

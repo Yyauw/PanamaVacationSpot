@@ -1,21 +1,52 @@
 <% layout('layouts/boilerplate') %>
-<link rel="stylesheet" href="/styles/stars.css">
+<link rel="stylesheet" href="/styles/stars.css" />
 <div class="row">
   <div class="col-6">
     <div class="card mb-3">
-      <% for(let img of spot.images){ %> 
-      <img src="<%= img.url %>" class="card-img-top" />
-      <% } %> 
+      <div
+        id="carouselExampleControls"
+        class="carousel slide"
+        data-bs-ride="carousel"
+      >
+        <div class="carousel-inner">
+          <% spot.images.forEach( (el,i) => {%>
+          <div class="carousel-item <%= (i==0? 'active': '')%>">
+            <img src="<%= el.url%>" class="d-block w-100" alt="..." />
+          </div>
+          <% })%>
+        </div>
+        <% if(spot.images.length > 1) {%> 
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleControls"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleControls"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+        <% } %> 
+      </div>
+
       <div class="card-body">
         <h5 class="card-title"><%= spot.title %></h5>
         <p class="card-text"><%= spot.description %></p>
       </div>
       <ul class="list-group list-group-flush">
         <li class="list-group-item text-muted"><%= spot.location %></li>
-        <li class="list-group-item ">Submited by <%= spot.author.username %></li>
+        <li class="list-group-item">Submited by <%= spot.author.username %></li>
         <li class="list-group-item">$<%= spot.price%> per entry</li>
       </ul>
-      <% if(userSession && spot.author.equals(userSession._id)){ %> 
+      <% if(userSession && spot.author.equals(userSession._id)){ %>
       <div class="card-body">
         <a href="/spots/<%= spot._id %>/edit " class="btn btn-primary">Edit</a>
         <form
@@ -26,16 +57,25 @@
           <button class="btn btn-danger">Delete spot</button>
         </form>
       </div>
-      <% } %> 
+      <% } %>
       <div class="card-footer text-muted">2 days ago</div>
     </div>
   </div>
+
   <div class="col-6">
-    <% if(userSession){ %> 
-      <h2>Leave a review</h2>
+    <% if(userSession){ %>
+    <h2>Leave a review</h2>
     <form action="/spots/<%= spot._id %>/review" method="POST" class="mb-3">
       <fieldset class="starability-coinFlip">
-        <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
+        <input
+          type="radio"
+          id="no-rate"
+          class="input-no-rate"
+          name="review[rating]"
+          value="1"
+          checked
+          aria-label="No rating."
+        />
         <input type="radio" id="first-rate1" name="review[rating]" value="1" />
         <label for="first-rate1" title="Terrible">1 star</label>
         <input type="radio" id="first-rate2" name="review[rating]" value="2" />
@@ -59,25 +99,25 @@
       </div>
       <button class="btn btn-success">Submit</button>
     </form>
-    
-    <% } %> 
+
+    <% } %>
     <h2>Reviews</h2>
     <% for(let review of spot.reviews){ %>
     <div class="card mb-3">
       <div class="card-body">
-        <h5 class="card-title"><%= review.author.username %> </h5>
+        <h5 class="card-title"><%= review.author.username %></h5>
         <p class="starability-result" data-rating="<%= review.rating%>">
           Rated: <%= review.rating %> stars
         </p>
         <p class="card-text"><%= review.body %></p>
-        <% if(userSession && review.author.equals(userSession._id)){ %> 
+        <% if(userSession && review.author.equals(userSession._id)){ %>
         <form
           action="/spots/<%= spot._id%>/review/<%= review._id %>?_method=DELETE"
           method="post"
         >
           <button class="btn btn-sm btn-danger">Delete</button>
         </form>
-        <% } %> 
+        <% } %>
       </div>
     </div>
     <% } %>

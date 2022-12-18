@@ -8,6 +8,7 @@ module.exports.spotSchema = Joi.object({
       price: Joi.number().required().min(0),
       description: Joi.string().required(),
     }).required(),
+    deleteImages: Joi.array()
   });
 
   module.exports.reviewSchema = Joi.object({

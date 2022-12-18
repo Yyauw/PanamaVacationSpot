@@ -19,7 +19,7 @@ router.get("/new", isLoggedIn, spotController.newSpot);
 router
   .route("/:id")
   .get(catchAsync(spotController.showSpot))
-  .put(isLoggedIn, isAuthor, validateSpot, catchAsync(spotController.editSpot))
+  .put(isLoggedIn, isAuthor,upload.array('image'), validateSpot, catchAsync(spotController.editSpot))
   .delete(isLoggedIn, isAuthor, catchAsync(spotController.deleteSpot));
 
 router.get(
