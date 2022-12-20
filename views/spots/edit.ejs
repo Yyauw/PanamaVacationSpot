@@ -41,8 +41,9 @@
                   </div>
                   <div>
                     <% spot.images.forEach( (el,i) => {%>
-                        <div>
-                            <img src="<%= el.url%> " alt="" class="img-thumbnail">
+                        <% const image = el.url.replace('/upload','/upload/w_200') %> 
+                        <div class="d-inline p-2">
+                            <img src="<%= image%> " alt="" class="img-thumbnail">
                             <input type="checkbox" name="deleteImages[]" id="image-<%= i %>" value="<%= el.filename%>">
                             <label for="image-<%= i %>">Delete?</label>
                         </div>
