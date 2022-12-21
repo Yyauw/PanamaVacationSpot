@@ -1,5 +1,8 @@
 const Spot = require("../models/spot");
 const {cloudinary}= require('../cloudinary')
+const mbxGeoCoding = require('@mapbox/mapbox-sdk/services/geocoding')
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeoCoding({accessToken: mapBoxToken})
 
 module.exports.index = async (req, res) => {
   const spots = await Spot.find({});
@@ -11,6 +14,12 @@ module.exports.newSpot = (req, res) => {
 };
 
 module.exports.createSpot = async (req, res, next) => {
+  const geodata = await geocoder.forwardGeocode({
+    query: req.body.spot.location,
+    limit: 1,
+    countries: ['pa']
+  }).send()
+  console.log(geodata.body.features[0].geometry.coordinates)
   const spot = new Spot(req.body.spot);
   spot.images = req.files.map((el) => ({
     url: el.path,

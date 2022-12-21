@@ -6,7 +6,11 @@
             <div class="card mb-3">
                 <div class="row">
                     <div class="col-md-4">
+                        <% if(spot.images[0]){ %> 
                         <img src="<%= spot.images[0].url%>" class="img-fluid" alt="">
+                        <% }else{ %> 
+                            <img src=" " class="img-fluid" alt="">
+                        <% } %> 
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
