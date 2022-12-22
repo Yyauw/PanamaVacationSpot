@@ -1,6 +1,5 @@
 <% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/styles/stars.css" />
-<div id='map' style='width: 400px; height: 300px;'></div>
 <div class="row">
   <div class="col-6">
     <div class="card mb-3">
@@ -64,6 +63,7 @@
   </div>
 
   <div class="col-6">
+    <div id='map' style='width: 400px; height: 300px;'></div>
     <% if(userSession){ %>
     <h2>Leave a review</h2>
     <form action="/spots/<%= spot._id %>/review" method="POST" class="mb-3">
@@ -126,6 +126,7 @@
 </div>
 <script>
   const mapToken ='<%- process.env.MAPBOX_TOKEN%>'
+  const Spot ='<%- JSON.stringify(spot)%>'
 </script>
 <script src='https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js'></script>
 <script src="/js/showPageMap.js"></script>

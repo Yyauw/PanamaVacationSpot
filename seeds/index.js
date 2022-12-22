@@ -22,13 +22,14 @@ async function createSpot() {
       author:'639625e34ebc12897aad1daf',
       location: `${cities[random100].city}, ${cities[random100].admin_name}`,
       title: `${cities[random100].city} ${places[randomplaces]}`,
+      geometry: { type: 'Point', coordinates: [ -80.826673508, 8.049286578 ] },
       images:[
         {
           url:'https://source.unsplash.com/collection/11649432/1600x900',
           filename:'jijija'
         },
         {
-          url:'https://source.unsplash.com/collection/11649432/1600x900',
+          url:'https://source.unsplash.com/collection/9457892/1600x900',
           filename:'jijija2'
         }
       ],

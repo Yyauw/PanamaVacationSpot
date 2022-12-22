@@ -18,15 +18,14 @@ module.exports.createSpot = async (req, res, next) => {
     query: req.body.spot.location,
     limit: 1,
     countries: ['pa']
-  }).send()
+  }).send() 
   const spot = new Spot(req.body.spot);
-  spot.geometry = geodata.body.features[0].geometry;
+  spot.geometry = geodata.body.features[0].geometry || {type: 'Point', coordinates: [ -80.826673508, 8.049286578 ] };
   spot.images = req.files.map((el) => ({
     url: el.path,
     filename: el.filename,
   }));
   spot.author = req.user._id;
-  console.log(spot)
   await spot.save();
   req.flash("success", "Successfully made spot!");
   res.redirect(`/spots/${spot._id}`);
