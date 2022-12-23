@@ -1,10 +1,9 @@
 mapboxgl.accessToken = mapToken;
-const spotjson = JSON.parse(spots)
-const spotFeature = { features: spotjson}
+const spotFeature = { features: spots}
 const map = new mapboxgl.Map({
 container: 'map',
 // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-style: 'mapbox://styles/mapbox/dark-v11',
+style: 'mapbox://styles/mapbox/light-v11',
 center: [-79.91607629119143,8.506921774739407],
 zoom: 6.5
 });
@@ -13,7 +12,7 @@ map.on('load', () => {
 // Add a new source from our GeoJSON data and
 // set the 'cluster' option to true. GL-JS will
 // add the point_count property to your source data.
-map.addSource('earthquakes', {
+map.addSource('spots', {
 type: 'geojson',
 // Point to GeoJSON data. This example visualizes all M1.0+ earthquakes
 // from 12/22/15 to 1/21/16 as logged by USGS' Earthquake hazards program.
@@ -26,7 +25,7 @@ clusterRadius: 50 // Radius of each cluster when clustering points (defaults to 
 map.addLayer({
 id: 'clusters',
 type: 'circle',
-source: 'earthquakes',
+source: 'spots',
 filter: ['has', 'point_count'],
 paint: {
 // Use step expressions (https://docs.mapbox.com/mapbox-gl-js/style-spec/#expressions-step)
@@ -58,7 +57,7 @@ paint: {
 map.addLayer({
 id: 'cluster-count',
 type: 'symbol',
-source: 'earthquakes',
+source: 'spots',
 filter: ['has', 'point_count'],
 layout: {
 'text-field': ['get', 'point_count_abbreviated'],
@@ -70,11 +69,11 @@ layout: {
 map.addLayer({
 id: 'unclustered-point',
 type: 'circle',
-source: 'earthquakes',
+source: 'spots',
 filter: ['!', ['has', 'point_count']],
 paint: {
 'circle-color': '#11b4da',
-'circle-radius': 4,
+'circle-radius': 5,
 'circle-stroke-width': 1,
 'circle-stroke-color': '#fff'
 }
@@ -86,7 +85,7 @@ const features = map.queryRenderedFeatures(e.point, {
 layers: ['clusters']
 });
 const clusterId = features[0].properties.cluster_id;
-map.getSource('earthquakes').getClusterExpansionZoom(
+map.getSource('spots').getClusterExpansionZoom(
 clusterId,
 (err, zoom) => {
 if (err) return;
@@ -105,9 +104,7 @@ zoom: zoom
 // description HTML from its properties.
 map.on('click', 'unclustered-point', (e) => {
 const coordinates = e.features[0].geometry.coordinates.slice();
-const mag = e.features[0].properties.mag;
-const tsunami =
-e.features[0].properties.tsunami === 1 ? 'yes' : 'no';
+const popupText =  e.features[0].properties.popUpMarkup
  
 // Ensure that if the map is zoomed out such that
 // multiple copies of the feature are visible, the
@@ -119,7 +116,7 @@ coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
 new mapboxgl.Popup()
 .setLngLat(coordinates)
 .setHTML(
-`magnitude: ${mag}<br>Was there a tsunami?: ${tsunami}`
+popupText
 )
 .addTo(map);
 });

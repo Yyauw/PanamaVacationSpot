@@ -2,6 +2,7 @@ const { number } = require("joi");
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const Review = require("./review");
+const opt = {toJSON:{virtuals:true}}
 
 const SpotSchema = new Schema({
   title: String,
@@ -33,7 +34,11 @@ const SpotSchema = new Schema({
       ref: "Review",
     },
   ],
-});
+},opt);
+
+SpotSchema.virtual('properties.popUpMarkup').get( function(){
+return `<a href="/spots/${this._id}">${this.title}</a><p class="text-muted">${this.location}</p>`;
+})
 
 SpotSchema.post("findOneAndDelete", async function (doc) {
   if (doc) {
