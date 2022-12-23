@@ -103,6 +103,9 @@
 
     <% } %>
     <h2>Reviews</h2>
+    <% if(spot.reviews.length === 0 ){ %>
+      <p class="text-muted">Currently no reviews, be the first!</p>
+      <% } %>  
     <% for(let review of spot.reviews){ %>
     <div class="card mb-3">
       <div class="card-body">
@@ -128,5 +131,4 @@
   const mapToken ='<%- process.env.MAPBOX_TOKEN%>'
   const Spot ='<%- JSON.stringify(spot)%>'
 </script>
-<script src='https://api.mapbox.com/mapbox-gl-js/v2.11.0/mapbox-gl.js'></script>
 <script src="/js/showPageMap.js"></script>
