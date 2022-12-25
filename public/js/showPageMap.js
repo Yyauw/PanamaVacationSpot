@@ -9,3 +9,4 @@ const popup = new mapboxgl.Popup({ offset: 25 }).setText(
     Spot.title
     );
 new mapboxgl.Marker().setLngLat(Spot.geometry.coordinates).setPopup(popup).addTo(map);
+map.addControl(new mapboxgl.NavigationControl());
