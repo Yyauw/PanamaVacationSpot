@@ -1,56 +1,97 @@
-<% layout('layouts/boilerplate') %> 
-    <div class="row">
-        <h1 class="text-center">Edit Spot</h1>
-        <div class="col-6 offset-3">
-            <form action="/spots/<%= spot._id%>?_method=PUT" method="POST" novalidate class="needs-validation" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="title" class="form-label">Title</label>
-                    <input type="text" name="spot[title]" id="title" class="form-control" value="<%= spot.title%>" required>
-                    <div class="invalid-feedback">
-                        This field is required!
-                      </div>
-                </div>
-                <div class="mb-3">
-                    <label for="location" class="form-label">Location</label>
-                    <input type="text" name="spot[location]" id="location" class="form-control" value="<%= spot.location%>" required>
-                    <div class="invalid-feedback">
-                        This field is required!
-                      </div>
-                </div>
-     
-                <div class="mb-3">
-                    <label for="price" class="form-label">Price</label>
-                    <div class="input-group mb-3">
-                        <span class="input-group-text">$</span>
-                        <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="spot[price]" id="price" placeholder="0.00" value="<%= spot.price%>" required>
-                        <div class="invalid-feedback">
-                            This field is required! (use 0 if the entry is free)
-                          </div>
-                      </div>
-                </div>
-                <div class="mb-3">
-                    <label for="description" class="form-label">Description</label>
-                    <textarea name="spot[description]" id="description" class="form-control" required><%= spot.description%></textarea>
-                    <div class="invalid-feedback">
-                        Please provide a valid description!
-                      </div>
-                </div>
-                <div class="mb-3">
-                    <label for="image" class="form-label">Images</label>
-                    <input class="form-control" type="file" id="image" multiple name="image">
-                  </div>
-                  <div>
-                    <% spot.images.forEach( (el,i) => {%>
-                        <% const image = el.url.replace('/upload','/upload/w_200') %> 
-                        <div class="d-inline p-2">
-                            <img src="<%= image%> " alt="" class="img-thumbnail">
-                            <input type="checkbox" name="deleteImages[]" id="image-<%= i %>" value="<%= el.filename%>">
-                            <label for="image-<%= i %>">Delete?</label>
-                        </div>
-                        <% } )%> 
-                  </div>
-                <button class="btn btn-success">Update spot</button> <a href="/spots/<%= spot._id%>" class="btn btn-danger">Cancel</a>
-            </form>
-            
+<% layout('layouts/boilerplate') %>
+<div class="row">
+  <h1 class="text-center">Edit Spot</h1>
+  <div class="col-6 offset-3">
+    <form
+      action="/spots/<%= spot._id%>?_method=PUT"
+      method="POST"
+      novalidate
+      class="needs-validation"
+      enctype="multipart/form-data"
+    >
+      <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input
+          type="text"
+          name="spot[title]"
+          id="title"
+          class="form-control"
+          value="<%= spot.title%>"
+          required
+        />
+        <div class="invalid-feedback">This field is required!</div>
+      </div>
+      <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input
+          type="text"
+          name="spot[location]"
+          id="location"
+          class="form-control"
+          value="<%= spot.location%>"
+          required
+        />
+        <div class="invalid-feedback">This field is required!</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="price" class="form-label">Price</label>
+        <div class="input-group mb-3">
+          <span class="input-group-text">$</span>
+          <input
+            type="text"
+            class="form-control"
+            aria-label="Amount (to the nearest dollar)"
+            name="spot[price]"
+            id="price"
+            placeholder="0.00"
+            value="<%= spot.price%>"
+            required
+          />
+          <div class="invalid-feedback">
+            This field is required! (use 0 if the entry is free)
+          </div>
         </div>
-    </div>
+      </div>
+      <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea
+          name="spot[description]"
+          id="description"
+          class="form-control"
+          required
+        >
+<%= spot.description%></textarea
+        >
+        <div class="invalid-feedback">Please provide a valid description!</div>
+      </div>
+      <div class="mb-3">
+        <label for="image" class="form-label">Images</label>
+        <input
+          class="form-control"
+          type="file"
+          id="image"
+          multiple
+          name="image"
+        />
+      </div>
+      <div>
+        <% spot.images.forEach( (el,i) => {%> <% const image = el.url.replace('/upload','/upload/w_200') %>
+        <div class="d-inline p-2">
+          <img src="<%= image%> " alt="" class="img-thumbnail" />
+          <input
+            type="checkbox"
+            name="deleteImages[]"
+            id="image-<%= i %>"
+            value="<%= el.filename%>"
+          />
+          <label for="image-<%= i %>">Delete?</label>
+        </div>
+        <% } )%>
+      </div>
+      <button class="btn btn-success">Update spot</button>
+      <a href="/spots/<%= spot._id%>" class="btn btn-danger">Cancel</a>
+    </form>
+  </div>
+</div>
+<script src="/js/formValidation.js"></script>

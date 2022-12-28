@@ -17,7 +17,7 @@
           id="title"
           class="form-control"
           required
-          placeholder="Chiriqui camp"
+          placeholder="Example: ancon camp"
         />
         <div class="invalid-feedback">This field is required!</div>
       </div>
@@ -29,7 +29,7 @@
           id="location"
           class="form-control"
           required
-          placeholder="panama, ancon"
+          placeholder="Example: panama, ancon"
         />
         <div class="invalid-feedback">This field is required!</div>
       </div>
@@ -41,7 +41,11 @@
           id="image"
           multiple
           name="image"
+          required
         />
+        <div class="invalid-feedback">
+          Format avalible: JPEG, JPG, PNG
+        </div>
       </div>
       <div class="mb-3">
         <label for="price" class="form-label">Price</label>

@@ -22,11 +22,8 @@ router
   .put(isLoggedIn, isAuthor,upload.array('image'), validateSpot, catchAsync(spotController.editSpot))
   .delete(isLoggedIn, isAuthor, catchAsync(spotController.deleteSpot));
 
-router.get(
-  "/:id/edit",
-  isLoggedIn,
-  isAuthor,
-  catchAsync(spotController.editForm)
-);
+router
+.route("/:id/edit")
+.get(isLoggedIn, isAuthor, catchAsync(spotController.editForm));
 
 module.exports = router;

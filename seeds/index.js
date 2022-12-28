@@ -3,8 +3,10 @@ const Spot = require("../models/spot");
 const cities = require("./cities");
 const { places } = require("./seedHelpers");
 
+const dbUrl = process.env.DB_URL || 'mongodb://localhost:27017/PanamaVacationSpot'
+
 mongoose
-  .connect("mongodb://localhost:27017/PanamaVacationSpot")
+  .connect(dbUrl)
   .then(() => {
     console.log("Database connected");
   })
@@ -19,7 +21,7 @@ async function createSpot() {
     const randomplaces = Math.floor(Math.random() * places.length);
     const priceGenerator = Math.floor(10 + Math.random() * 50);
     const spot = new Spot({
-      author: "639625e34ebc12897aad1daf",
+      author: "63ac7596fc34ff0739d31418",
       location: `${cities[random100].city}, ${cities[random100].admin_name}`,
       title: `${cities[random100].city} ${places[randomplaces]}`,
       geometry: {
