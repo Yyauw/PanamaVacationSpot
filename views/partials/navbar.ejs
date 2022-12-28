@@ -1,0 +1,32 @@
+<nav class="navbar sticky-top navbar-expand-lg bg-dark navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="/">PanamaVacationSpot</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/spots">Spots</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/spots/new">New Spots</a>
+          </li>
+     
+        </ul>
+      </div>
+      <div class="collapse navbar-collapse flex-row-reverse" id="navbarNav" >
+        <div class="navbar-nav ms-start">
+          <% if(!userSession) {%> 
+          <a class="nav-link" href="/login">Login</a>
+          <a class="nav-link" href="/register">Singup</a>
+          <% }else{ %> 
+          <a class="nav-link" href="/logout">Logout</a>
+          <% } %> 
+      </div>
+  </div>
+    </div>
+  </nav>

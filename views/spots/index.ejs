@@ -1,0 +1,32 @@
+    <% layout('layouts/boilerplate') %> 
+    <div id="map" style="width: 100%; height: 400px;"> </div>
+    <h1>Spots</h1>
+    <p class="text-muted">the places created here are not real they are only here just to show the page</p>
+    <ul>
+        <% for(let spot of spots){ %>
+            <div class="card mb-3">
+                <div class="row">
+                    <div class="col-md-4">
+                        <% if(spot.images[0]){ %> 
+                        <img src="<%= spot.images[0].url%>" class="img-fluid" alt="">
+                        <% }else{ %> 
+                            <img src=" " class="img-fluid" alt="">
+                        <% } %> 
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= spot.title %> </h5>
+                            <p class="card-text text-muted"><small><%= spot.location %></small></p>
+                            <p class="card-text"><%= spot.description %> </p>
+                            <a href="/spots/<%= spot._id %>" class="btn btn-primary">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% } %> 
+    </ul>
+    <script>
+        const mapToken ='<%- process.env.MAPBOX_TOKEN%>'
+        const spots = <%- JSON.stringify(spots)%>
+      </script>
+    <script src="/js/clusterMap.js"></script>
