@@ -37,6 +37,7 @@ async function createSpot() {
         },
       ],
       price: priceGenerator,
+      time: new Date().getDate(),
       description:
         "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Fugit quas doloremque saepe, ullam, itaque, necessitatibus explicabo modi ratione inventore qui ducimus sapiente minima iste odit commodi! Magnam quasi inventore ratione",
     });

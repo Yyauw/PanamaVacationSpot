@@ -13,6 +13,7 @@ const SpotSchema = new Schema({
   price: Number,
   description: String,
   location:String,
+  time:Number,
   geometry:{
     type:{
       type:String,

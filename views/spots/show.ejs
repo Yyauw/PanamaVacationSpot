@@ -58,7 +58,8 @@
         </form>
       </div>
       <% } %>
-      <div class="card-footer text-muted">2 days ago</div>
+      <% const currtime = new Date().getDate() - spot.time %>
+      <div class="card-footer text-muted"><%= currtime < 1 ? 'Moment ago': currtime + ' days ago'%> </div>
     </div>
   </div>
 
