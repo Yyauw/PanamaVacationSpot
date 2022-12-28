@@ -45,8 +45,8 @@ app.use(mongoSanitize({
 }))
 
 const sessionConfig = {
-  store: MongoStore.create({ mongoUrl: dbUrl,secret:"badSecret",touchAfter: 24 * 3600 }),
-  secret: "badSecret",
+  store: MongoStore.create({ mongoUrl: dbUrl,secret:process.env.SECRET,touchAfter: 24 * 3600 }),
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -139,6 +139,8 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("./partials/error", { err });
 });
 
-app.listen("3000", () => {
-  console.log("listening on port 3000");
+const port = process.env.PORT || 3000;
+
+app.listen(port, () => {
+  console.log("listening on port "+port);
 });
