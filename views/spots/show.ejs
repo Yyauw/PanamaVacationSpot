@@ -11,7 +11,11 @@
         <div class="carousel-inner">
           <% spot.images.forEach( (el,i) => {%>
           <div class="carousel-item <%= (i==0? 'active': '')%>">
-            <img src="<%= el.url%>" class="d-block w-100" alt="..." />
+            <img
+              src="https://panamamastertours.com/wp-content/uploads/2023/08/IMG_5971-1140x760-1.jpg"
+              class="d-block w-100"
+              alt="..."
+            />
           </div>
           <% })%>
         </div>
@@ -57,14 +61,15 @@
           <button class="btn btn-danger">Delete spot</button>
         </form>
       </div>
-      <% } %>
-      <% const currtime = new Date().getDate() - spot.time %>
-      <div class="card-footer text-muted"><%= currtime < 1 ? 'Moment ago': currtime + ' days ago'%> </div>
+      <% } %> <% const currtime = new Date().getDate() - spot.time %>
+      <div class="card-footer text-muted">
+        <%= currtime < 1 ? 'Moment ago': currtime + ' days ago'%>
+      </div>
     </div>
   </div>
 
   <div class="col-6">
-    <div id='map' style='width: 400px; height: 300px;'></div>
+    <div id="map" style="width: 400px; height: 300px"></div>
     <% if(userSession){ %>
     <h2>Leave a review</h2>
     <form action="/spots/<%= spot._id %>/review" method="POST" class="mb-3">
@@ -105,9 +110,8 @@
     <% } %>
     <h2>Reviews</h2>
     <% if(spot.reviews.length === 0 ){ %>
-      <p class="text-muted">Currently no reviews, be the first!</p>
-      <% } %>  
-    <% for(let review of spot.reviews){ %>
+    <p class="text-muted">Currently no reviews, be the first!</p>
+    <% } %> <% for(let review of spot.reviews){ %>
     <div class="card mb-3">
       <div class="card-body">
         <h5 class="card-title"><%= review.author.username %></h5>
